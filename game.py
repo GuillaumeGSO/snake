@@ -28,6 +28,7 @@ class Game:
     def __init__(self):
         self.game_score = 0     # contains the snake fitness at the end of the game
         self.game_time = 0      # number of iteration de game has been played (useful to stop long games)
+        self.player_name = ''   # player name to display with window title
 
     def start(self, display=False, neural_net=None, playable=False, speed=20):
         """
@@ -86,7 +87,7 @@ class Game:
         """
         pygame.init()                                                               # pygame initialization
         game_window = pygame.display.set_mode((int(WINDOW_SIZE*2), WINDOW_SIZE))    # opens window
-        pygame.display.set_caption(WINDOW_TITLE)
+        pygame.display.set_caption(WINDOW_TITLE + ' ' + self.player_name)
 
         snake = Snake(neural_net=neural_net)
         map = Map(snake)
