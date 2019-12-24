@@ -112,7 +112,11 @@ class Snake:
 
         :return: integer representing how good the snake is performing
         """
-        return (len(self.body)**2) * self.age
+        # Initial score
+        #return (len(self.body)**2) * self.age
+        # Nokia's score
+        #TODO set a paramter to store different type of scoring
+        return (len(self.body)*7)
 
     def render(self, window):
         """
@@ -126,3 +130,15 @@ class Snake:
             window.blit(body, (block[0]*SPRITE_SIZE, block[1]*SPRITE_SIZE))     # painting a beautiful snek
         if self.neural_net:                                                     # calls for neural net rendering
             self.neural_net.render(window, self.vision)
+        
+    def display_score(self, window):
+        sc = 'Length:{0} Age:{1}'
+        score = sc.format(str(len(self.body)).ljust(3), str(self.age).ljust(4))
+        largeTextFont = pygame.font.Font(None,30)
+        
+        textSurface = largeTextFont.render(score, True, (0,0,0))
+        textRect = textSurface.get_rect()
+        textRect = (30,5)
+        
+        window.blit(textSurface, textRect)
+        pygame.display.update()

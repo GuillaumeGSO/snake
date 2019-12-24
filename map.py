@@ -76,6 +76,7 @@ class Map:
                 num_case += 1
             num_line += 1
         self.snake.render(window)         # snake will be rendered on above the map
+        self.snake.display_score(window)
 
 
 
