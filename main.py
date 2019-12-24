@@ -17,10 +17,19 @@ each part is independent of others
 from game import*
 from genetic_algorithm import *
 
-def loadPlayer(name=''):
+"""
+Use this to run a saved player and add a row to the result file
+Use d isplay= False to make a tournament between the saved players
+Use display = True (default) to actually watch the saved player play.
+"""
+def loadPlayer(name='', display=True, result_file='result.csv'):
     net.load(filename_weights='saved/'+ name + '_weights.npy', filename_biases='saved/'+ name + '_biases.npy')
     game.player_name = name.capitalize()
-    game.start(display=True, neural_net=net)
+    score = game.start(display = display, neural_net=net)
+    with open(result_file, 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([name.capitalize(), score])
+            file.close
 
 """
 Watch games of snake played by my best neural nets !
@@ -30,14 +39,32 @@ Only 3 games are played here but you can load more networks from the saved folde
 net = NeuralNetwork()
 game = Game()
 
+#Tournement
+for i in range(100):
+    loadPlayer('joseph')
+    loadPlayer('GSO-Gen13-LongCubeFoisAge')
+    loadPlayer('GSO-NokiaScore_Gen24')
+    loadPlayer('joseph')
+    loadPlayer('valentin')
+    loadPlayer('larry')
+    loadPlayer('adam')
+    loadPlayer('jason')
+    loadPlayer('juan')
+    loadPlayer('kevin')
+
+
+#Mine
+#loadPlayer('GSO-Gen13-LongCubeFoisAge')
+#loadPlayer('GSO-NokiaScore_Gen24')
+
 # Joseph is the funniest to watch, he always does something cool
-loadPlayer('joseph')
+#loadPlayer('joseph')
 
 # Valentin is safe and precise
-loadPlayer('valentin')
+#loadPlayer('valentin')
 
 # Larry is very very safe but also my best network, don't hesitate to run him a few times if he's doing loops
-loadPlayer('larry')
+#loadPlayer('larry')
 
 #the others
 #loadPlayer('adam')
