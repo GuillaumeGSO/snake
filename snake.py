@@ -115,7 +115,7 @@ class Snake:
         # Initial score
         #return (len(self.body)**2) * self.age
         # Nokia's score
-        #TODO set a paramter to store different type of scoring
+        #TODO set a parameter to store different type of scoring
         return (len(self.body)*7)
 
     def render(self, window):

@@ -40,10 +40,11 @@ net = NeuralNetwork()
 game = Game()
 
 #Tournement
+"""
 for i in range(100):
     loadPlayer('joseph')
-    loadPlayer('GSO-Gen13-LongCubeFoisAge')
-    loadPlayer('GSO-NokiaScore_Gen24')
+    #loadPlayer('GSO-Gen13-LongCubeFoisAge')
+    #loadPlayer('GSO-NokiaScore_Gen24')
     loadPlayer('joseph')
     loadPlayer('valentin')
     loadPlayer('larry')
@@ -51,20 +52,20 @@ for i in range(100):
     loadPlayer('jason')
     loadPlayer('juan')
     loadPlayer('kevin')
-
+"""
 
 #Mine
 #loadPlayer('GSO-Gen13-LongCubeFoisAge')
 #loadPlayer('GSO-NokiaScore_Gen24')
 
 # Joseph is the funniest to watch, he always does something cool
-#loadPlayer('joseph')
+loadPlayer('joseph')
 
 # Valentin is safe and precise
-#loadPlayer('valentin')
+loadPlayer('valentin')
 
 # Larry is very very safe but also my best network, don't hesitate to run him a few times if he's doing loops
-#loadPlayer('larry')
+loadPlayer('larry')
 
 #the others
 #loadPlayer('adam')
