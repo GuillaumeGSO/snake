@@ -11,7 +11,8 @@ A module which contains all constants for the snake game, it is useful to improv
 which is very important for the genetic algorithm
 """
 # Training Display
-SCORE_MAX = 400
+SCORE_MAX = 500
+MARGIN = 20
 
 # Window parameters
 SPRITE_NUMBER = 20

@@ -73,12 +73,7 @@ class GeneticAlgorithm:
         :return: Nothing
         """
         time_start = datetime.now()
-        game_window = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))    # opens window
-        pygame.display.set_caption(WINDOW_TITLE + ' training')
-        surface = pygame.Surface ((WINDOW_SIZE, WINDOW_SIZE))
-        screen = pygame.display.get_surface()
-        screen.fill ((0, 0, 0))
-        #pygame.draw.line(screen, 0xFFFFFF, [0, 100], [WINDOW_SIZE,100], 1)
+        screen = self.prepare_screen()
         
         networks = self.networks
         population_size = self.population_size
@@ -113,11 +108,29 @@ class GeneticAlgorithm:
             self.print_generation(networks, gen)
             # update stats graph
             last_score, last_top_mean, last_bottom_mean = zip(self.display_generation(screen, networks, gen, last_score, last_top_mean, last_bottom_mean))
-            pygame.image.save(screen, 'result.png')
+            pygame.image.save(screen, 'training_result_pop' + str(population_size) + '_gen' + str(self.generation_number) + '.png')
         
         time_elapsed = datetime.now() - time_start
         print('\nTime elapsed (hh:mm:ss) {}'.format(time_elapsed))
             
+    def prepare_screen(self):
+        pygame.init()
+        game_window = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))    # opens window
+        pygame.display.set_caption(WINDOW_TITLE + ' training')
+        surface = pygame.Surface ((WINDOW_SIZE, WINDOW_SIZE))
+        screen = pygame.display.get_surface()
+        screen.fill ((0, 0, 0))
+        font = pygame.font.Font('freesansbold.ttf', 16) 
+        #draw scores guidelines
+        for i in range(0,WINDOW_SIZE, 100):
+            i_scaled = i * WINDOW_SIZE / SCORE_MAX
+            pygame.draw.line(screen, 0xFFFFFF, [0, i_scaled], [WINDOW_SIZE, i_scaled], 1)
+            text = font.render(str(i), True, (255, 255, 255), (0, 0, 0)) 
+            textRect = text.get_rect() 
+            textRect.center = (MARGIN, WINDOW_SIZE - i_scaled - MARGIN)
+            screen.blit(text, textRect)
+        return screen
+    
     def parent_selection(self, networks, crossover_number, population_size):
         """
         Parent selection function, takes 3 random individuals and makes a tournament between them,
