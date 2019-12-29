@@ -22,6 +22,8 @@ from random import randint
 from game import*
 from neural_network import *
 from joblib import Parallel, delayed
+import csv
+from datetime import datetime
 
 
 class GeneticAlgorithm:
@@ -70,6 +72,14 @@ class GeneticAlgorithm:
 
         :return: Nothing
         """
+        time_start = datetime.now()
+        game_window = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))    # opens window
+        pygame.display.set_caption(WINDOW_TITLE + ' training')
+        surface = pygame.Surface ((WINDOW_SIZE, WINDOW_SIZE))
+        screen = pygame.display.get_surface()
+        screen.fill ((0, 0, 0))
+        #pygame.draw.line(screen, 0xFFFFFF, [0, 100], [WINDOW_SIZE,100], 1)
+        
         networks = self.networks
         population_size = self.population_size
         crossover_number = int(self.crossover_rate*self.population_size)   # calculate number of children to be produced
@@ -77,6 +87,11 @@ class GeneticAlgorithm:
 
         num_cores = multiprocessing.cpu_count()         # number of cores in your computer for later parallelization
         gen = 0                                         # current generation
+        gen_scaled = 0                                  #generation scaled to fit the screen
+        last_score=[gen, WINDOW_SIZE]
+        last_top_mean=[gen, WINDOW_SIZE]
+        last_bottom_mean=[gen, WINDOW_SIZE]
+                                                 
         for i in range(self.generation_number):
             gen += 1
 
@@ -94,8 +109,15 @@ class GeneticAlgorithm:
                 networks[rand] = self.mutation(networks[rand])
 
             networks = networks[:population_size]       # Keeping only best individuals
+            # print stats in console
             self.print_generation(networks, gen)
-
+            # update stats graph
+            last_score, last_top_mean, last_bottom_mean = zip(self.display_generation(screen, networks, gen, last_score, last_top_mean, last_bottom_mean))
+            pygame.image.save(screen, 'result.png')
+        
+        time_elapsed = datetime.now() - time_start
+        print('\nTime elapsed (hh:mm:ss) {}'.format(time_elapsed))
+            
     def parent_selection(self, networks, crossover_number, population_size):
         """
         Parent selection function, takes 3 random individuals and makes a tournament between them,
@@ -285,3 +307,28 @@ class GeneticAlgorithm:
         print("Pop size = ", len(networks))
         print("Average top 6 = ", top_mean)
         print("Average last 6 = ", bottom_mean)
+        with open('result_training.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([gen, networks[0].score, len(networks), top_mean, bottom_mean])
+        
+    def display_generation(self, screen, networks, gen, last_score, last_top_mean, last_bottom_mean):
+        """
+        Displays facts about the current generation in the game_window:
+        - Best fitness
+        - Pop size
+        - Top 6 average
+        - Bottom 6 average
+        """
+        top_score = WINDOW_SIZE - (networks[0].score * WINDOW_SIZE / SCORE_MAX)
+        top_mean = WINDOW_SIZE - int(np.mean([networks[i].score for i in range(6)])) * WINDOW_SIZE / SCORE_MAX
+        bottom_mean = WINDOW_SIZE - int(np.mean([networks[-i].score for i in range(1, 6)])) * WINDOW_SIZE / SCORE_MAX
+        gen_scaled = gen * WINDOW_SIZE / self.generation_number
+        pygame.draw.aaline(screen, 0xFF00FF, last_score, [gen_scaled,top_score], 3)
+        pygame.draw.aaline(screen, 0x00FFFF, last_top_mean, [gen_scaled, top_mean], 3)
+        pygame.draw.aaline(screen, 0xFFFF00, last_bottom_mean, [gen_scaled, bottom_mean], 3)
+        last_score = [gen_scaled,networks[0].score]
+        last_top_mean = [gen_scaled, top_mean]
+        last_bottom_mean = [gen_scaled, bottom_mean]
+        pygame.display.flip ()
+        return [(gen_scaled, top_score) , (gen_scaled, top_mean), (gen_scaled, bottom_mean)]
+            
