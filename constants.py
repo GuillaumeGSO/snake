@@ -10,9 +10,12 @@ constants.py
 A module which contains all constants for the snake game, it is useful to improve performance
 which is very important for the genetic algorithm
 """
+#Directories
+TEMP_DIRECTORY = "temp"
+
 # Training Display
 SCORE_MAX = 500
-MARGIN = 20
+MARGIN = 10
 
 # Window parameters
 SPRITE_NUMBER = 20

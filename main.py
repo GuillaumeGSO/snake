@@ -59,13 +59,13 @@ for i in range(100):
 #loadPlayer('GSO-NokiaScore_Gen24')
 
 # Joseph is the funniest to watch, he always does something cool
-loadPlayer('joseph')
+#loadPlayer('joseph')
 
 # Valentin is safe and precise
-loadPlayer('valentin')
+#loadPlayer('valentin')
 
 # Larry is very very safe but also my best network, don't hesitate to run him a few times if he's doing loops
-loadPlayer('larry')
+#loadPlayer('larry')
 
 #the others
 #loadPlayer('adam')
@@ -93,8 +93,8 @@ The training speed depend a lot on your CPU and its cores number
 
 Contact me if you know how to make it run on GPU
 """
-#gen = GeneticAlgorithm(population_size=1000, crossover_method='neuron', mutation_method='weight')
-#gen.start()
+gen = GeneticAlgorithm(population_size=1000, generation_number=20, crossover_method='neuron', mutation_method='weight')
+gen.start()
 
 
 

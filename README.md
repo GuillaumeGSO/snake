@@ -18,7 +18,7 @@ I timed most functions to be sure to improve speed and used numba jit for compil
 
 ## Installation
 
-Python 3 was used for this project and I can't promess that older versions are compatibles
+Python 3 was used for this project and I can't promise that older versions are compatibles
 
 Libraries you'll need to run the project:
 
@@ -36,8 +36,9 @@ You will find some ready to run examples in ``main.py`` file.
 
 You can try to:
 - Play snake
-- Train your own neural networks (it can take a while to get good results)
-- Display a game played by neural networks that I trained and selected four you
+- Train your own neural networks and visualize progression (graph & csv file) (it can take a while to get good results) 
+- Display a game played by neural networks that I trained and selected for you
+- Play tournament between your trained snakes and pick the best (analyse the csv file)
 
 Everything is explaind in the file, just uncomment parts that you want to execute, then go to terminal and do:
 ```sh

@@ -97,7 +97,7 @@ class GeneticAlgorithm:
             networks = networks + children + mutations                      # old population and new individuals
             self.evaluation(networks, num_cores)                            # evaluation of neural nets
             networks.sort(key=lambda Network: Network.score, reverse=True)  # ranking neural nets
-            networks[0].save(name="gen_"+str(gen))                          # saving best of current generation
+            networks[0].save(name=TEMP_DIRECTORY + "/gen_"+str(gen))                          # saving best of current generation
 
             for i in range(int(0.2*len(networks))):              # More random mutations because it helps
                 rand = randint(10, len(networks)-1)
@@ -108,7 +108,7 @@ class GeneticAlgorithm:
             self.print_generation(networks, gen)
             # update stats graph
             last_score, last_top_mean, last_bottom_mean = zip(self.display_generation(screen, networks, gen, last_score, last_top_mean, last_bottom_mean))
-            pygame.image.save(screen, 'training_result_pop' + str(population_size) + '_gen' + str(self.generation_number) + '.png')
+            pygame.image.save(screen, TEMP_DIRECTORY + '/training_result_pop' + str(population_size) + '_gen' + str(self.generation_number) + '.png')
         
         time_elapsed = datetime.now() - time_start
         print('\nTime elapsed (hh:mm:ss) {}'.format(time_elapsed))
@@ -120,14 +120,15 @@ class GeneticAlgorithm:
         surface = pygame.Surface ((WINDOW_SIZE, WINDOW_SIZE))
         screen = pygame.display.get_surface()
         screen.fill ((0, 0, 0))
-        font = pygame.font.Font('freesansbold.ttf', 16) 
+        font = pygame.font.Font('freesansbold.ttf', 14) 
         #draw scores guidelines
         for i in range(0,WINDOW_SIZE, 100):
             i_scaled = i * WINDOW_SIZE / SCORE_MAX
             pygame.draw.line(screen, 0xFFFFFF, [0, i_scaled], [WINDOW_SIZE, i_scaled], 1)
             text = font.render(str(i), True, (255, 255, 255), (0, 0, 0)) 
             textRect = text.get_rect() 
-            textRect.center = (MARGIN, WINDOW_SIZE - i_scaled - MARGIN)
+            textRect.left = MARGIN
+            textRect.bottom = WINDOW_SIZE - i_scaled
             screen.blit(text, textRect)
         return screen
     
@@ -320,7 +321,7 @@ class GeneticAlgorithm:
         print("Pop size = ", len(networks))
         print("Average top 6 = ", top_mean)
         print("Average last 6 = ", bottom_mean)
-        with open('result_training.csv', 'a', newline='') as file:
+        with open(TEMP_DIRECTORY + '/training_result.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([gen, networks[0].score, len(networks), top_mean, bottom_mean])
         
