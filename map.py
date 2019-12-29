@@ -202,7 +202,7 @@ class Map:
         self.snake.vision = scan    # gives snake vision
 
 
-#@jit(nopython=True)
+@jit(nopython=True)
 def distance(p1=None, p2=None):
     """
     Gives euclidian distance between two points

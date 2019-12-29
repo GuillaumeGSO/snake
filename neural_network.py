@@ -16,8 +16,7 @@ The class is build for the snake project so:
 - No backpropagation since we don't need it for the genetic algorithm
 """
 
-#from numba import jit 
-#numba is not ready for Python 3.8. Try again in january 2020
+from numba import jit 
 import numpy as np
 import pygame
 from constants import *
@@ -110,7 +109,7 @@ class NeuralNetwork:
                 pygame.gfxdraw.aacircle(window, x, y, 9, (205, 205, 205))
             step += 2
 
-#@jit(nopython=True)
+@jit(nopython=True)
 def sigmoid(z):
     """
     The sigmoid function, classic neural net activation function
