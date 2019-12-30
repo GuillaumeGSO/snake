@@ -36,9 +36,13 @@ You will find some ready to run examples in ``main.py`` file.
 
 You can try to:
 - Play snake
-- Train your own neural networks and visualize progression (graph & csv file) (it can take a while to get good results) 
+- Train your own neural networks and visualize progression,see graph below. (it can take a while to get good results) 
 - Display a game played by neural networks that I trained and selected for you
 - Play tournament between your trained snakes and pick the best (analyse the csv file)
+
+<p align="center">
+  <img src="./training_result.png">
+</p>
 
 Everything is explaind in the file, just uncomment parts that you want to execute, then go to terminal and do:
 ```sh
